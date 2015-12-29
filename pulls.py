@@ -3,7 +3,8 @@ from marvel.marvel import Marvel
 from config import public_key, private_key
 
 IGNORE = set([
-    19709, 20256, 19379, 19062, 19486, 19242, 19371, 19210, 20930
+    19709, 20256, 19379, 19062, 19486, 19242, 19371, 19210, 20930, 21328, 20834,
+    18826, 20933, 20365, 20928, 21129, 20786, 21402, 21018
 ])
 
 m = Marvel(public_key, private_key)
@@ -26,4 +27,4 @@ with open(directory + '/pulls.txt', 'w') as pull_checklist:
         series_num = int(comic.series['resourceURI'].split('/')[-1])
         if series_num not in IGNORE:
             pull_checklist.write('{} (series #{})\n'.format(
-                comic.title, series_num))
+                comic.title.encode('utf-8'), series_num))
