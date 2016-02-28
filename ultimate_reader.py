@@ -12,7 +12,7 @@ SERIES = set([
     474, # Ultimate X-Men
     13831, # Ultimate Comics Spider-man
     8509, # Ultimate Comics Spider-Man
-    # 664, # Ultimates v1 <-- TODO: None date causing problems, fix in lib.
+    664, # Ultimates v1 <-- TODO: None date causing problems, fix in lib.
     709, # Ultimates v2
     702, # Ultimate Fantastic Four
     18508, # Miles Morales: Ultimate Spider-MAN
@@ -57,7 +57,8 @@ comics_ordered = defaultdict(list)
     
 for series_id in SERIES:
     for comic in all_comics_for_series(series_id):
-        comics_ordered[comic.dates.on_sale].append(comic.title)
+        if comic.dates.on_sale is not None:
+            comics_ordered[comic.dates.on_sale].append(comic.title)
         
 for date in sorted(comics_ordered):
     for comic in comics_ordered[date]:
