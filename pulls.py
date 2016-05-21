@@ -6,7 +6,8 @@ from config import public_key, private_key
 # I pull these out of the resulting pulls.txt file, then rerun this script
 IGNORE = set([
     19709, 20256, 19379, 19062, 19486, 19242, 19371, 19210, 20930, 21328,
-    20834, 18826, 20933, 20365, 20928, 21129, 20786, 21402, 21018
+    20834, 18826, 20933, 20365, 20928, 21129, 20786, 21402, 21018, 14803,
+    21285, 12212
 ])
 
 # Authenticate with Marvel, with keys I got from http://developer.marvel.com/
@@ -17,7 +18,8 @@ pulls = sorted(m.comics({
     'format': "comic",
     'formatType': "comic",
     'noVariants': True,
-    'dateDescriptor': "thisWeek"}),
+    'dateDescriptor': "thisWeek",
+    'limit': 100}),
     key=lambda comic: comic.title)
 
 # Grab the sale date of any of the comics for the folder name
