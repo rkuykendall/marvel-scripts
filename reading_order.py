@@ -4,15 +4,19 @@ from collections import defaultdict
 import marvelous
 from config import public_key, private_key
 
-m = marvelous.api(public_key, private_key, cache=True)
+m = marvelous.api(
+    public_key, private_key,
+    cache=marvelous.SqliteCache("ultimate_reader.db"))
 
 series = sys.argv[1:]
+
 
 def ordinal(n):
     if 10 <= n % 100 < 20:
         return str(n) + 'th'
     else:
-       return  str(n) + {1 : 'st', 2 : 'nd', 3 : 'rd'}.get(n % 10, "th")
+        return str(n) + {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, "th")
+
 
 def all_comics_for_series(id):
     series = m.series(id)
@@ -42,10 +46,9 @@ for series_id in series:
     for comic in all_comics_for_series(series_id):
         if comic.dates.on_sale is not None:
             comics_ordered[comic.dates.on_sale].append(comic.title)
-        
+
 for date in sorted(comics_ordered):
     for comic in comics_ordered[date]:
-        print '{} ({})'.format(
-            comic, 
-            date.strftime('%B ') + ordinal(date.day) + date.strftime(', %Y'))
-
+        print('{} ({})'.format(
+            comic,
+            date.strftime('%B ') + ordinal(date.day) + date.strftime(', %Y')))

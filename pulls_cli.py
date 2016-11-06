@@ -24,20 +24,14 @@ pulls = sorted(m.comics({
     'limit': 100}),
     key=lambda comic: comic.title)
 
-# Grab the sale date of any of the comics for the folder name
-directory = pulls[0].dates.on_sale.strftime('%m-%d')
+# Grab the sale date of any of the comics for the current week
+week = pulls[0].dates.on_sale.strftime('%m/%d')
 
-# If there's no folder by that name, create one
-if not os.path.exists(directory):
-    os.makedirs(directory)
-
-# Create a pulls.txt file in that folder
-with open("{0}/{0}.txt".format(directory), 'w') as pull_checklist:
-    # Check each comic that came out this week
-    for comic in pulls:
-        # If this series isn't in my ignore list
-        if comic.series.id not in IGNORE:
-            # Write a line to the file with the name of the issue, and the
-            # id of the series incase I want to add it to my ignore list
-            pull_checklist.write('{} (series #{})\n'.format(
-                comic.title, comic.series.id))
+print("New comics for the week of {}:".format(week))
+# Check each comic that came out this week
+for comic in pulls:
+    # If this series isn't in my ignore list
+    if comic.series.id not in IGNORE:
+        # Write a line to the file with the name of the issue, and the
+        # id of the series incase I want to add it to my ignore list
+        print('- {} (series #{})'.format(comic.title, comic.series.id))
